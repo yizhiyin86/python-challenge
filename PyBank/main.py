@@ -5,7 +5,8 @@
 #________________________________________________________________
 import csv
 import os
-csvpath=os.path.join("raw_data", "budget_data_1.csv")
+filename="budget_data_1.csv"
+csvpath=os.path.join("raw_data", filename)
 csv_list=[]
 with open(csvpath,newline="") as csvfile:
     csvreader=csv.reader(csvfile,delimiter=",")
