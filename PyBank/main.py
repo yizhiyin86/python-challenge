@@ -6,7 +6,7 @@
 
 #To run a another csv file of the same kind, just change the variable 
 #filename="your_file_name.csv" note the file has to be in the direction PythonBank/raw_data
-#for this homework, just change to filename="budget_data_1.csv" to run budget_data_2.csv
+#for this homework, just change to filename="budget_data_2.csv" to run budget_data_2.csv
 
 #Part I 
 # ______________________________________________________________
@@ -14,7 +14,7 @@
 #________________________________________________________________
 import csv
 import os
-filename="budget_data_2.csv"
+filename="budget_data_1.csv"
 csvpath=os.path.join("raw_data", filename)
 csv_list=[]
 with open(csvpath,newline="") as csvfile:
@@ -79,9 +79,9 @@ Date_greatest_decrease=csv_list_no_header[index_decrease+1][0]
 # # print("debug "+Date_greatest_decrease)
 
 #Part V print the ouput in the terminal and create a text
-# ____________________________________________________________
-#I am using a module sys
-#_____________________________________________________________
+#___________________________________________________________
+#___________________________________________________________
+
 message=("\nFinancial Analysis \n"+"__________________________________________\n"+"Total months: "
     +str(num_of_month)+"\nTotal Revenue: $"+str(total_revenue)+
     "\nAverage Revenue Change: $"+str(average_revenue_change)+"\nGreatest Increase in Revenue: "
