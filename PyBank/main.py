@@ -1,3 +1,12 @@
+#This python script works for any csv file with two column that the
+#first column as the date and the second column as the revenue. I notice that
+# the two original files are in time order already. So this script 
+#takes advantage of that. Future coding needs to be done to deal with csv files that have not been
+#sorted by dates.
+
+#To run a another csv file of the same kind, just change the variable 
+#filename="your_file_name.csv" note the file has to be in the direction PythonBank/raw_data
+#for this homework, just change to filename="budget_data_1.csv" to run budget_data_2.csv
 
 #Part I 
 # ______________________________________________________________
@@ -5,7 +14,7 @@
 #________________________________________________________________
 import csv
 import os
-filename="budget_data_1.csv"
+filename="budget_data_2.csv"
 csvpath=os.path.join("raw_data", filename)
 csv_list=[]
 with open(csvpath,newline="") as csvfile:
@@ -69,10 +78,17 @@ Date_greatest_decrease=csv_list_no_header[index_decrease+1][0]
 # # print("debug "+Date_greatest_increase)
 # # print("debug "+Date_greatest_decrease)
 
-print("\nFinancial Analysis \n"+"__________________________________________\n"
-    "Total months: "+str(num_of_month)+"\n"
-    "Total Revenue: $"+str(total_revenue)+"\n"
-    "Average Revenue Change: $"+str(average_revenue_change)+"\n"
-    "Greatest Increase in Revenue: "+str(Date_greatest_increase) + " ($" + str(greatest_increase) +")\n"
-    "Greatest Decrease in Revenue: "+str(Date_greatest_decrease) + " ($" + str(greatest_decrease) +")\n")
+#Part V print the ouput in the terminal and create a text
+# ____________________________________________________________
+#I am using a module sys
+#_____________________________________________________________
+message=("\nFinancial Analysis \n"+"__________________________________________\n"+"Total months: "
+    +str(num_of_month)+"\nTotal Revenue: $"+str(total_revenue)+
+    "\nAverage Revenue Change: $"+str(average_revenue_change)+"\nGreatest Increase in Revenue: "
+    +str(Date_greatest_increase) + " ($" + str(greatest_increase) +")\nGreatest Decrease in Revenue: "
+    +str(Date_greatest_decrease) + " ($" + str(greatest_decrease) +")\n")
+print(message)
 
+output_filename=filename[:-3]+"txt"
+with open(output_filename,"w") as text:
+    text=text.write(message)
