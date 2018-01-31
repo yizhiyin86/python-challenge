@@ -10,7 +10,7 @@
 
 #Part I 
 # ______________________________________________________________
-# import csv and convert csv into a list called csv_list_no_header
+# import csv and convert csv into a list called csv_list
 #________________________________________________________________
 import csv
 import os
@@ -19,19 +19,20 @@ csvpath=os.path.join("raw_data", filename)
 csv_list=[]
 with open(csvpath,newline="") as csvfile:
     csvreader=csv.reader(csvfile,delimiter=",")
+    #skip the header
+    next(csvreader,None)
     for row in csvreader:
         csv_list.append(row)
-csv_list_no_header=csv_list[1:]
 
 #Part II
 # ____________________________________________________________ 
 # calculate the number of months as well as the total revenue
 # ____________________________________________________________
-num_of_month=len(csv_list_no_header)
+num_of_month=len(csv_list)
 
 #Calculate total revenue
 total_revenue=0
-for ele in csv_list_no_header:
+for ele in csv_list:
     total_revenue+=int(ele[1])
 # # print("debug "+total_revenue)
 
@@ -42,8 +43,8 @@ for ele in csv_list_no_header:
 #__________________________________________________________
 change_by_month_list=[]
 i=1
-while i<=(len(csv_list_no_header)-1):
-    change_by_month=int(csv_list_no_header[i][1])-int(csv_list_no_header[i-1][1])
+while i<=(len(csv_list)-1):
+    change_by_month=int(csv_list[i][1])-int(csv_list[i-1][1])
     change_by_month_list.append(change_by_month)
     i+=1
 # # print("debug "+len(change_by_month_list))
@@ -55,7 +56,7 @@ while i<=(len(csv_list_no_header)-1):
 # find the greatest changes of revenue in the change_by_month_list
 # and the index number of the greatest changes of the revenue
 # use the index number of the greatest increase and decrease to 
-# access the corresponding date from the csv_list_no_header
+# access the corresponding date from the csv_list
 #________________________________________________________________
 
 #Calculate the average of revenue change by month
@@ -72,15 +73,16 @@ index_decrease=change_by_month_list.index(greatest_decrease)
 # # print("debug {},{},{},{}".format(greatest_increase,index_increase,greatest_decrease,index_decrease))
 
 #retrieve the corresponding dates with greatest increase or decrease from 
-#csv_list_no_header
-Date_greatest_increase=csv_list_no_header[index_increase+1][0]
-Date_greatest_decrease=csv_list_no_header[index_decrease+1][0]
+#csv_list
+Date_greatest_increase=csv_list[index_increase+1][0]
+Date_greatest_decrease=csv_list[index_decrease+1][0]
 # # print("debug "+Date_greatest_increase)
 # # print("debug "+Date_greatest_decrease)
 
-#Part V print the ouput in the terminal and create a text
-#___________________________________________________________
-#___________________________________________________________
+#__________________________________________________________________________________________
+#PartV output on terminal as well as onto a filename.txt file
+# ____________________________________________________________________________________________
+
 
 message=("\nFinancial Analysis \n"+"__________________________________________\n"+"Total months: "
     +str(num_of_month)+"\nTotal Revenue: $"+str(total_revenue)+
