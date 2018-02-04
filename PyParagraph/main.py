@@ -1,3 +1,8 @@
+#______________________________________________________________________
+#if you want to test paragraph_2.txt in the raw_data folder, just need to change the filename variable
+#Note the relative path of this main.py script and the file it will run on
+#Please make corresponding change in the filepath if your text file is not under \raw_data\filename
+# ____________________________________________________________________________________________________
 import re
 import os
 
@@ -24,31 +29,48 @@ with open(filepath,'r') as text:
     #   'ab-cd-ef' as 'ab','cd','ef' as three items
     #So the accurate count of words will be len(WordList) substract the number 
     # of hyphens in hyphenated words
-    WordList=re.findall('[a-zA-Z]+',textreader)
-    print(WordList)
-    #extract hyphens in hyphenated words by using the pattern '[a-zA-Z]-' to search in the textreader
-    HyphensInWords=re.findall('[a-zA-Z]-',textreader)
-    #Calculate the WordCount 
-    WordCount=len(WordList)-len(HyphensInWords)
-    print(WordCount)
+WordList=re.findall('[a-zA-Z]+',textreader)
+# # # print('debug the word list is {}'.format(WordList))
+#extract hyphens in hyphenated words by using the pattern '[a-zA-Z]-' to search in the textreader
+HyphensInWords=re.findall('[a-zA-Z]-',textreader)
+#Calculate the WordCount 
+WordCount=len(WordList)-len(HyphensInWords)
+# # # print("debug the WordCount is {}".format(WordCount))
 
-    #Count Sentence______________________________________________________
-    #assign sentenceEnders I found this useful snippet at the link below
-    #http://pythonicprose.blogspot.com/2009/09/python-split-paragraph-into-sentences.html
-    #Thanks to the author for sharing it
-    sentenceEnders = re.compile('[.!?][\s]{1,2}(?=[A-Z])')
+#Count Sentence______________________________________________________
+#I modified the snipped provided on the homework instruction by expanding characters followed by [.!?] 
+# to [\s,"] to include \n and sentence ended by a quotation. That solves most problems for paragraph_2.txt
+#except I still found it split 1 more sentence for paragraph_2.txt
+#  (it has 10 sentences according to my mannual count)
+#It turns out my code split name 'Anne V. Coates,' at the '. ' as well.
+#I tried to use regular expression to filter those corner cases out but I could not figure it out
+sentenceEnders=re.compile('(?<=[.!?])[\s,"]+')
+#split each sentence from the textreader as an item in a list named sentenceList
+sentenceList= sentenceEnders.split(textreader)
+#Approximate sentence count
+senteceCount=len(sentenceList)
+#Count Letters_____________________________________________
+LetterList=re.findall('[a-zA-Z]',textreader)
+LetterCount=len(LetterList)
+# # # print("debug the lettercount is {}".format(LetterCount))
+
+# calculate average letter count per word
+average_letter_count=LetterCount/WordCount
     
-    #split each sentence from the textreader as an item in a list named sentenceList
-    sentenceList= sentenceEnders.split(textreader)
+#calculate average sentence lenth in words
+average_sentence_lenth=WordCount/senteceCount
 
-    #Approximate sentence count
-    senteceCount=len(sentenceList)
-    print(senteceCount)
+#________________________________________________________
+#print on the terminal and output into a txt file as well
+#________________________________________________________
+message=("\nParagraph Analysis \n"+"__________________________________________\n"+"Approximate Word Count: {}".format(WordCount)
+    +"\nApproximate Sentence Count: {}".format(senteceCount)+"\nAverage Letter Count: {}".format(average_letter_count)
+    + "\nAverage Sentence Length: {}".format(average_sentence_lenth))
+print(message)
 
-    #Count Letters_____________________________________________
-    LetterList=re.findall('[a-zA-Z]',textreader)
-    print(len(LetterList))
-    
+output_filename=filename[:-3]+"txt"
+with open(output_filename,"w") as text:
+    text=text.write(message)  
 
 
     
